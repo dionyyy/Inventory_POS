@@ -10,11 +10,14 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@babel/core": "^7.17.5",
+        "@babel/preset-env": "^7.16.11",
         "@popperjs/core": "^2.10.2",
         "axios": "^0.21",
+        "babel-loader": "^8.2.3",
         "bootstrap": "^5.1.3",
-        "browser-sync": "^2.27.7",
-        "browser-sync-webpack-plugin": "^2.3.0",
+        "browser-sync": "^0.9.1",
+        "browser-sync-webpack-plugin": "^0.1.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
@@ -23,9 +26,13 @@
         "sass-loader": "^11.0.1",
         "vue": "^2.6.14",
         "vue-loader": "^15.9.7",
-        "vue-template-compiler": "^2.6.12"
+        "vue-template-compiler": "^2.6.12",
+        "webpack": "^5.70.0"
     },
     "dependencies": {
+        "noty": "^3.2.0-beta-deprecated",
+        "sweetalert2": "^11.4.4",
+        "vue-currency-input": "^2.4.0",
         "vue-router": "^3.5.3"
     }
 }
