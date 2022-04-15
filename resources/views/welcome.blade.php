@@ -119,7 +119,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Salary</h6>
             <router-link class="collapse-item" to="/given-salary">Add Salary</router-link>
-            <router-link class="collapse-item" to="/">All Salary</router-link>
+            <router-link class="collapse-item" to="/salary">All Salary</router-link>
           </div>
         </div>
       </li>
@@ -364,8 +364,8 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>copyright &copy; <script type="application/javascript"> document.write(new Date().getFullYear()); </script>
-              {{-- <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b> --}}
+            <span>copyright &copy; <script type="application/javascript">  </script>
+             
             </span>
           </div>
         </div>

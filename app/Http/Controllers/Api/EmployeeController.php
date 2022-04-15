@@ -45,7 +45,7 @@ class EmployeeController extends Controller
             'name' => 'required|unique:employees|max:255',
             'email' => 'required',
             'phone' => 'required|unique:employees',
-            'photo' => 'mimes:jpeg,jpg,png,gif',
+            // 'photo' => 'required|image'
    
            ]);
    

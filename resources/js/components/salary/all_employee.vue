@@ -3,7 +3,7 @@
 <div>
     <div class="row">
       <div class="col-sm-12">
-        <router-link to="/store-employee" class="btn btn-primary float-right">Add Employee</router-link>
+        <router-link to="/salary" class="btn btn-primary float-right">All Salary</router-link>
         </div>
     </div>
     <br>

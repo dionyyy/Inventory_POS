@@ -3,7 +3,7 @@
 <div>
     <div class="row">
       <div class="col-sm-12">
-        <router-link to="/given-salary" class="btn btn-primary float-right">Pay Salary</router-link>
+        <router-link to="/salary" class="btn btn-primary float-right">Back</router-link>
         </div>
     </div>
     <br>
@@ -16,21 +16,28 @@
               <!-- Simple Tables -->
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">All Salary List</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Employee Salary Details</h6>
                 </div>
                 <div class="table-responsive">
                   <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                       <tr>
+                        <th>Name</th>
                         <th>Month</th>
-                        <th>Details</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="salary in filterSearch" :key="salary.id">
-                        <td>{{ salary.salary_month }}</td>
+                      <tr v-for="employee in filterSearch" :key="employee.id">
+                        <td>{{ employee.name }}</td>
+                        <td><img :src="employee.photo" id="em_photo"></td>
+                        <td>{{ employee.phone }}</td>
+                        <td>{{ formatPrice(employee.salary) }}</td>
+                        <td>{{ employee.joining_date }}</td>
                         <td>
-                          <router-link :to="{name: 'view-salary', params: {id: salary.salary_month}}" class="btn btn-sm btn-primary">View Salary</router-link>
+                          <router-link :to="{name: 'pay-salary', params: {id: employee.id}}" class="btn btn-sm btn-primary">Pay Salary</router-link>
                         </td>
                       </tr>
                     </tbody>
@@ -53,7 +60,7 @@
    },
 
     created() {
-    this.allSalary();
+    this.viewSalary();
   },
    data() {
      return {
@@ -65,21 +72,23 @@
    computed:{
      filterSearch(){
        return this.salaries.filter(salary => {
-         return salary.salary_month.toLowerCase().match(this.searchTerm.toLowerCase())
+         return salary.name.toLowerCase().match(this.searchTerm.toLowerCase())
        })
      }
    },
   
   methods: {
-     allSalary(){
-      axios.get('/api/salary/')
-      .then(({data}) => (this.salaries = data))
-      .catch(console.log('error'))
+     viewSalary(){
+      	  let id = this.$route.params.id
+       axios.get('/api/salary/view/'+id)
+       .then(({data}) => (this.salaries = data))
+       .catch(error =>this.errors = error.response.data.errors)
     },
     formatPrice(value) {
         let val = (value/1).toFixed(2).replace('.', '.')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
+
   },
 
  }

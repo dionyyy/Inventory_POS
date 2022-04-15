@@ -36,6 +36,15 @@ class Notifications{
     }).show();
    }
 
+   salary(){
+    new Noty({
+        type: 'alert',
+        text: 'Salary already Paid',
+        layout: 'topRight',
+        timeout: 1000,
+    }).show();
+   }
+
    image_validation(){
     new Noty({
         type: 'error',

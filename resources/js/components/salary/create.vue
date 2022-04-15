@@ -6,7 +6,7 @@
 
   <div class="row">
     <div class="col-sm-12">
-  <router-link to="/employee" class="btn btn-primary float-right">All Employee </router-link>
+  <router-link to="/given-salary" class="btn btn-primary float-right">Back </router-link>
     </div>
  </div>
 
@@ -22,7 +22,7 @@
                     <h1 class="h4 text-gray-900 mb-4"> Pay Salary</h1>
                   </div>
 
-      <form class="user" @submit.prevent="employeeUpdate">
+      <form class="user" @submit.prevent="salaryPaid">
 
         <div class="form-group">
 
@@ -114,11 +114,7 @@
         email: '',
         phone: '',
         salary: '',
-        address: '',
-        photo: '',
-        newphoto: '',
-        nid: '',
-        joining_date: ''
+        salary_month: ''
       },
       errors:{}
     }
@@ -127,30 +123,18 @@
   	let id = this.$route.params.id
   	axios.get('/api/employee/'+id)
   	.then(({data}) => (this.form = data))
-  	.catch(console.log('error'))
+  	.catch()
   },
   methods:{
-    onFileSelected(event){
-     let file = event.target.files[0];
-     if (file.size > 1048770) {
-      Notifications.image_validation()
-     }else{
-      let reader = new FileReader();
-      reader.onload = event =>{
-        this.form.newphoto = event.target.result
-       
-      };
-      reader.readAsDataURL(file);
-     }
-    },
-  employeeUpdate(){
+  salaryPaid(){
   	  let id = this.$route.params.id
-       axios.patch('/api/employee/'+id,this.form)
+       axios.post('/api/salary/paid/'+id,this.form)
        .then(() => {
-        this.$router.push({ name: 'employee'})
-        Notifications.success()
+           this.$router.push({ name: 'given-salary'})
+          Notifications.success()
        })
        .catch(error =>this.errors = error.response.data.errors)
+       Notifications.salary()
      },
   } 
   }
