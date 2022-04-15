@@ -101,7 +101,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+
+        return response()->json($product);
     }
 
     /**
@@ -124,7 +126,45 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = array(
+
+            'product_name' => $request->product_name,
+            'product_code' => $request->product_code,
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'stock' => $request->stock,
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'product_quantity' => $request->product_quantity,
+            'buying_date' => $request->buying_date
+        );
+       
+        $image = $request->newimage;
+
+        if ($image) {
+         $position = strpos($image, ';');
+         $sub = substr($image, 0, $position);
+         $ext = explode('/', $sub)[1];
+
+         $name = time().".".$ext;
+         $img = Image::make($image)->resize(240,200);
+         $upload_path = 'backend/product/';
+         $image_url = $upload_path.$name;
+         $success = $img->save($image_url);
+         
+         if ($success) {
+            $data['image'] = $image_url;
+            $img = Product::where('id',$id)->first();
+            $image_path = $img->image;
+            $done = unlink($image_path);
+            Product::where('id', $request->id)->update($data);
+        }
+          
+        }else{
+            $oldimage = $request->image;
+            $data['image'] = $oldimage;
+            Product::where('id', $request->id)->update($data);
+        }
     }
 
     /**
@@ -135,6 +175,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        $photo = $product->image;
+
+        if($photo) {
+            unlink($photo);
+           Product::where('id', $product->id)->delete();
+        }else{
+           Product::where('id', $product->id)->delete();
+        }
     }
 }

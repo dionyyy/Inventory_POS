@@ -96,6 +96,34 @@
         </div>
       </li>
       <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTabless" aria-expanded="true"
+          aria-controls="collapseTable">
+          <i class="fab fa-fw fa-wpforms"></i>
+          <span>Expense</span>
+        </a>
+        <div id="collapseTabless" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Expense</h6>
+            <router-link class="collapse-item" to="/store-expense">Add Expense</router-link>
+            <router-link class="collapse-item" to="/expense">All Expense</router-link>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTablesss" aria-expanded="true"
+          aria-controls="collapseTable">
+          <i class="fab fa-fw fa-wpforms"></i>
+          <span>Salary</span>
+        </a>
+        <div id="collapseTablesss" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Salary</h6>
+            <router-link class="collapse-item" to="/given-salary">Add Salary</router-link>
+            <router-link class="collapse-item" to="/">All Salary</router-link>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="ui-colors.html">
           <i class="fas fa-fw fa-palette"></i>
           <span>UI Colors</span>
@@ -333,6 +361,15 @@
         </div>
         <!---Container Fluid-->
       </div>
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>copyright &copy; <script type="application/javascript"> document.write(new Date().getFullYear()); </script>
+              {{-- <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b> --}}
+            </span>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
 </div>
@@ -341,6 +378,14 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
+  <script src="{{ asset('js/app.js')}}"></script>
+  <script src="{{ asset('backend/vendor/jquery/jquery.min.js')}}"></script>
+  <script src="{{ asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> 
+  
+  <script src="{{ asset('backend/js/ruang-admin.min.js') }}"></script>
+  <script src="{{ asset('backend/vendor/chart.js/Chart.min.js') }}"></script>
+  <script src="{{ asset('backend/js/demo/chart-area-demo.js') }}"></script> 
+
   <script type="text/javascript">
     let token = localStorage.getItem('token');
     if (token) {
@@ -349,13 +394,6 @@
     }
   
   </script>
-  <script src="{{ asset('js/app.js') }}"></script>
-  <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('backend/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('backend/js/ruang-admin.min.js') }}"></script>
-  <script src="{{ asset('backend/vendor/chart.js/Chart.min.js') }}"></script>
-  <script src="{{ asset('backend/js/demo/chart-area-demo.js') }}"></script>  
 </body>
 
 </html>

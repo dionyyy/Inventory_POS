@@ -3,7 +3,7 @@
 <div>
     <div class="row">
       <div class="col-sm-12">
-        <router-link to="/store-product" class="btn btn-primary float-right">Add Product</router-link>
+        <router-link to="/store-expense" class="btn btn-primary float-right">Add Expense</router-link>
         </div>
     </div>
     <br>
@@ -16,32 +16,26 @@
               <!-- Simple Tables -->
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Expense List</h6>
                 </div>
                 <div class="table-responsive">
                   <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                       <tr>
-                        <th>Product Name</th>
-                        <th>Product Image</th>
-                        <th>Product Code</th>
-                        <th>Buying Price</th>
-                        <th>Selling Price</th>
-                        <th>Buying Date</th>
+                        <th>Details</th>
+                        <th>Amount</th>
+                        <th>Expense Date</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="product in filterSearch" :key="product.id">
-                        <td>{{ product.product_name }}</td>
-                        <td><img :src="product.image" id="em_photo"></td>
-                        <td>{{ product.product_code }}</td>
-                        <td>{{ formatPrice(product.buying_price) }}</td>
-                        <td>{{ formatPrice(product.selling_price) }}</td>
-                        <td>{{ product.buying_date }}</td>
+                      <tr v-for="expense in filterSearch" :key="expense.id">
+                        <td>{{ expense.details }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.expenses_date }}</td>
                         <td>
-                          <router-link :to="{name: 'edit-product', params: {id: product.id}}" class="btn btn-sm btn-primary">Edit</router-link>
-                          <a @click="deleteProduct(product.id)" class="btn btn-sm btn-danger"><font color="white">Delete</font></a>
+                          <router-link :to="{name: 'edit-expense', params: {id: expense.id}}" class="btn btn-sm btn-primary">Edit</router-link>
+                          <a @click="deleteExpense(expense.id)" class="btn btn-sm btn-danger"><font color="white">Delete</font></a>
                         </td>
                       </tr>
                     </tbody>
@@ -64,34 +58,30 @@
    },
 
     created() {
-    this.allProduct();
+    this.allExpense();
   },
    data() {
      return {
-       products:[],
+       expenses:[],
        searchTerm: ''
      }
    },
 
    computed:{
      filterSearch(){
-       return this.products.filter(product => {
-         return product.product_name.toLowerCase().match(this.searchTerm.toLowerCase())
+       return this.expenses.filter(expense => {
+         return expense.details.toLowerCase().match(this.searchTerm.toLowerCase())
        })
      }
    },
   
   methods: {
-     allProduct(){
-      axios.get('/api/product/')
-      .then(({data}) => (this.products = data))
+     allExpense(){
+      axios.get('/api/expense/')
+      .then(({data}) => (this.expenses = data))
       .catch(console.log('error'))
     },
-    formatPrice(value) {
-        let val = (value/1).toFixed(2).replace('.', '.')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    },
-    deleteProduct(id){
+    deleteExpense(id){
         Swal.fire({
           title: 'Are you sure?',
           text: "You won't be able to revert this!",
@@ -102,14 +92,14 @@
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
-            axios.delete('/api/product/'+id)
+            axios.delete('/api/expense/'+id)
             .then(() => {
-              this.products = this.products.filter(product => {
-                return product.id != id
+              this.expenses = this.expenses.filter(expense => {
+                return expense.id != id
               })
             })
             .catch(() => {
-              this.$router.push({name: 'product' })
+              this.$router.push({name: 'expense' })
             })
             Swal.fire(
               'Deleted!',
@@ -125,8 +115,5 @@
 </script>
 
 <style type="text/css">
-  #em_photo{
-    height: 40px;
-    width: 40px;
-  }
+ 
 </style>
