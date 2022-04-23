@@ -3,7 +3,7 @@
 <div>
     <div class="row">
       <div class="col-sm-12">
-        <router-link to="/salary" class="btn btn-primary float-right">Back</router-link>
+        <router-link to="/store-product" class="btn btn-primary float-right">Add Product</router-link>
         </div>
     </div>
     <br>
@@ -16,27 +16,32 @@
               <!-- Simple Tables -->
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Employee Salary Details</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Stock</h6>
                 </div>
                 <div class="table-responsive">
                   <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                       <tr>
-                        <th>Name</th>
-                        <th>Month</th>
-                        <th>Amount</th>
-                        <th>Date</th>
+                        <th>Product Name</th>
+                        <th>Product Image</th>
+                        <th>Product Code</th>
+                        <th>Buying Price</th>
+                        <th>Status</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="salary in filterSearch" :key="salary.id">
-                        <td>{{ salary.name }}</td>
-                        <td>{{ salary.salary_month }}</td>
-                        <td>{{ formatPrice(salary.amount) }}</td>
-                        <td>{{ salary.salary_date }}</td>
+                      <tr v-for="product in filterSearch" :key="product.id">
+                        <td>{{ product.product_name }}</td>
+                        <td><img :src="product.image" id="em_photo"></td>
+                        <td>{{ product.product_code }}</td>
+                        <td>{{ formatPrice(product.buying_price) }}</td>
+                        <td v-if="product.product_quantity >= 1"><span class="badge badge-success">Available</span></td>
+                        <td v-else=" "><span class="badge badge-danger">Stock out</span></td>
+                        <td>{{ product.product_quantity }}</td>
                         <td>
-                          <router-link :to="{name: 'edit-salary', params: {id: salary.id}}" class="btn btn-sm btn-primary">Edit Salary</router-link>
+                          <router-link :to="{name: 'edit-stock', params: {id: product.id}}" class="btn btn-sm btn-primary">Edit</router-link>
                         </td>
                       </tr>
                     </tbody>
@@ -59,35 +64,33 @@
    },
 
     created() {
-    this.viewSalary();
+    this.allProduct();
   },
    data() {
      return {
-       salaries:[],
+       products:[],
        searchTerm: ''
      }
    },
 
    computed:{
      filterSearch(){
-       return this.salaries.filter(salary => {
-         return salary.name.toLowerCase().match(this.searchTerm.toLowerCase())
+       return this.products.filter(product => {
+         return product.product_name.toLowerCase().match(this.searchTerm.toLowerCase())
        })
      }
    },
   
   methods: {
-     viewSalary(){
-      	  let id = this.$route.params.id
-       axios.get('/api/salary/view/'+id)
-       .then(({data}) => (this.salaries = data))
-       .catch(error =>this.errors = error.response.data.errors)
+     allProduct(){
+      axios.get('/api/product/')
+      .then(({data}) => (this.products = data))
+      .catch(console.log('error'))
     },
     formatPrice(value) {
         let val = (value/1).toFixed(2).replace('.', '.')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
-
   },
 
  }

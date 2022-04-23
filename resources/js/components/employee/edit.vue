@@ -185,7 +185,7 @@
       let reader = new FileReader();
       reader.onload = event =>{
         this.form.newphoto = event.target.result
-       
+        console.log(event.target.result);
       };
       reader.readAsDataURL(file);
      }

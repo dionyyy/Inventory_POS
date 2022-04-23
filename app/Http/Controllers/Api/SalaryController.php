@@ -18,13 +18,13 @@ class SalaryController extends Controller
 
         if(!$salary)
         {
-            $data = array([
+            $data = array(
                 'employee_id' => $id,
                 'amount' => $request->salary,
                 'salary_date' => date('d/m/Y'),
                 'salary_month' => $request->salary_month,
                 'salary_year' => date('Y'),
-            ]);
+            );
     
             Salary::insert($data);
         }else{
@@ -41,6 +41,32 @@ class SalaryController extends Controller
 
     public function viewSalary($id)
     {
-        
+        $view = Salary::join('employees', 'salaries.employee_id', 'employees.id')
+                        ->select('employees.name', 'salaries.*')
+                        ->where('salaries.salary_month', $id)
+                        ->get();
+                    
+        return response()->json($view);
+    }
+
+    public function editSalary($id)
+    {
+        $view = Salary::join('employees', 'salaries.employee_id', 'employees.id')
+        ->select('employees.name', 'employees.email', 'salaries.*')
+        ->where('salaries.id', $id)
+        ->first();
+    
+        return response()->json($view);
+    }
+
+    public function updateSalary(Request $request, $id)
+    {
+        $data = array(
+            'employee_id' => $request->employee_id,
+            'amount' => $request->amount,
+            'salary_month' => $request->salary_month
+        );
+
+        Salary::where('id', $id)->update($data);
     }
 }

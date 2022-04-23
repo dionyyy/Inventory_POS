@@ -20,6 +20,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employee = Employee::all();
+        
         return response()->json($employee);
     }
 
@@ -135,13 +136,7 @@ class EmployeeController extends Controller
             'nid' => $request->nid,
             'joining_date' => $request->joining_date,
         );
-        // $data['name'] = $request->name;
-        // $data['email'] = $request->email;
-        // $data['phone'] = $request->phone;
-        // $data['salary'] = $request->salary;
-        // $data['address'] = $request->address;
-        // $data['nid'] = $request->nid;
-        // $data['joining_date'] = $request->joining_date;
+   
         $image = $request->newphoto;
 
         if ($image) {

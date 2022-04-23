@@ -35,6 +35,11 @@
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></router-link>
       </li>
+       <li class="nav-item">
+        <router-link class="nav-link" to="/home">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>POS</span></router-link>
+      </li>
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
         Menu
@@ -120,6 +125,39 @@
             <h6 class="collapse-header">Salary</h6>
             <router-link class="collapse-item" to="/given-salary">Add Salary</router-link>
             <router-link class="collapse-item" to="/salary">All Salary</router-link>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/stock">
+          <i class="fas fa-fw fa-columns"></i>
+          <span>Stock</span></router-link>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTablessss" aria-expanded="true"
+          aria-controls="collapseTable">
+          <i class="fa fa-user-circle"></i>
+          <span>Customer</span>
+        </a>
+        <div id="collapseTablessss" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Customer</h6>
+            <router-link class="collapse-item" to="/store-customer">Add Customer</router-link>
+            <router-link class="collapse-item" to="/customer">All Customer</router-link>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTablesssss" aria-expanded="true"
+          aria-controls="collapseTable">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Reports</span>
+        </a>
+        <div id="collapseTablesssss" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Reports</h6>
+            <router-link class="collapse-item" to="/store-customer">Report One</router-link>
+            <router-link class="collapse-item" to="/customer">Report Two</router-link>
           </div>
         </div>
       </li>

@@ -37,7 +37,16 @@ let paySalary = require('./components/salary/create.vue').default;
 
 let allSalary = require('./components/salary/index.vue').default;
 let viewSalary= require('./components/salary/view.vue').default;
+let editSalary= require('./components/salary/edit.vue').default;
 
+//Stock Components
+let stock = require('./components/product/stock.vue').default;
+let editStock = require('./components/product/edit_stock.vue').default;
+
+// Customer Compponents
+let createCustomer = require('./components/customer/create.vue').default;
+let customer = require('./components/customer/index.vue').default;
+let editCustomer = require('./components/customer/edit.vue').default;
 
 export const routes = [
     { path: '/', component: login, name: '/' },
@@ -77,6 +86,14 @@ export const routes = [
 
     { path: '/salary', component: allSalary, name: 'salary' },
     { path: '/view-salary/:id', component: viewSalary, name: 'view-salary' },
+    { path: '/edit-salary/:id', component: editSalary, name: 'edit-salary' },
 
+    //Stock Routes
+    { path: '/stock', component: stock, name: 'stock' },
+    { path: '/edit-stock/:id', component: editStock, name: 'edit-stock' },
 
+      //Customer Routes
+    { path: '/store-customer', component: createCustomer, name: 'store-customer' },
+    { path: '/customer', component: customer, name: 'customer' },
+    { path: '/edit-customer/:id', component: editCustomer, name: 'edit-customer' },
   ]
