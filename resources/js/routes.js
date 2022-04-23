@@ -6,6 +6,9 @@ let logout = require('./components/auth/logout.vue').default;
 // End Authentication
 let home = require('./components/home.vue').default;
 
+//POS components
+let pos = require('./components/pos/pointofsale.vue').default;
+
 // Employee Compponents
 let create = require('./components/employee/create.vue').default;
 let employee = require('./components/employee/index.vue').default;
@@ -96,4 +99,7 @@ export const routes = [
     { path: '/store-customer', component: createCustomer, name: 'store-customer' },
     { path: '/customer', component: customer, name: 'customer' },
     { path: '/edit-customer/:id', component: editCustomer, name: 'edit-customer' },
+
+    //POS Routes
+    { path: '/pos', component: pos, name: 'pos' },
   ]
