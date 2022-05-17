@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\SalaryController;
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\ProductController;
@@ -42,3 +43,4 @@ Route::post('/salary/update/{id}', [SalaryController::class, 'updateSalary']);
 
 Route::post('stock/update/{id}', [ProductController::class, 'stockUpdate']);
 
+Route::get('/getting/product/{id}', [PosController::class, 'getProduct']);
