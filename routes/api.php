@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\PosController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SalaryController;
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\ProductController;
@@ -44,3 +46,28 @@ Route::post('/salary/update/{id}', [SalaryController::class, 'updateSalary']);
 Route::post('stock/update/{id}', [ProductController::class, 'stockUpdate']);
 
 Route::get('/getting/product/{id}', [PosController::class, 'getProduct']);
+
+//add to cart 
+Route::get('/addToCart/{id}', [CartController::class, 'addToCart']);
+
+//fetch all inside cart
+Route::get('/cart/product/', [CartController::class, 'cartProduct']);
+
+//delete cart
+Route::get('/remove/cart/{id}', [CartController::class, 'removeCart']);
+
+//increment and decrement
+Route::get('/cart/increment/{id}', [CartController::class, 'increment']);
+Route::get('/cart/decrement/{id}', [CartController::class, 'decrement']);
+
+//Vat routre
+Route::get('/vats', [CartController::class, 'vats']);
+
+//Order done 
+Route::post('/orderDone', [PosController::class, 'orderDone']);
+
+//Orderapi route
+Route::get('/orders', [OrderController::class, 'todayOrder']);
+
+
+
