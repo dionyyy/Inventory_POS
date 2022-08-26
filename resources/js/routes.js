@@ -53,6 +53,8 @@ let editCustomer = require('./components/customer/edit.vue').default;
 
 // Order Components
 let order = require('./components/order/order.vue').default;
+let viewOrder = require('./components/order/vieworder.vue').default;
+
 
 export const routes = [
     { path: '/', component: login, name: '/' },
@@ -108,4 +110,5 @@ export const routes = [
 
     //Order Routes
     { path: '/order', component: order, name: 'order' },
+    { path: '/view-order/:id', component: viewOrder, name: 'view-order' },
   ]

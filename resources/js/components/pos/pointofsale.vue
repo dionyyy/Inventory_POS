@@ -15,7 +15,7 @@
             <div class="col-xl-5 col-lg-5">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Expense Insert</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">POS Insert</h6>
                   <a href="" class="btn btn-sm btn-info">Add Customer</a>
                 </div>
                 

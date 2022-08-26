@@ -175,12 +175,6 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="ui-colors.html">
-          <i class="fas fa-fw fa-palette"></i>
-          <span>UI Colors</span>
-        </a>
-      </li>
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
         Examples
