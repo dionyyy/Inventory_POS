@@ -71,6 +71,11 @@ Route::get('/orders', [OrderController::class, 'todayOrder']);
 
 Route::get('/orders/details/{id}', [OrderController::class, 'orderDetails']);
 Route::get('/orders/orderdetails/{id}', [OrderController::class, 'orderDetailsAll']);
+Route::post('/search/order', [PosController::class, 'searchOrderDate']);
 
-
-
+//Admin Dashboard Route
+Route::get('/today/sell', [PosController::class, 'todaySell']);
+Route::get('/today/income', [PosController::class, 'todayIncome']);
+Route::get('/today/due', [PosController::class, 'todayDue']);
+Route::get('/today/expense', [PosController::class, 'todayExpense']);
+Route::get('/today/stockout', [PosController::class, 'todayStockOut']);

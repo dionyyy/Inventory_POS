@@ -54,6 +54,7 @@ let editCustomer = require('./components/customer/edit.vue').default;
 // Order Components
 let order = require('./components/order/order.vue').default;
 let viewOrder = require('./components/order/vieworder.vue').default;
+let searchOrder = require('./components/order/searchorder.vue').default;
 
 
 export const routes = [
@@ -111,4 +112,5 @@ export const routes = [
     //Order Routes
     { path: '/order', component: order, name: 'order' },
     { path: '/view-order/:id', component: viewOrder, name: 'view-order' },
+    { path: '/search-order', component: searchOrder, name: 'search-order' },
   ]

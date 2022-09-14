@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use DateTime;
 use App\Models\Model\Pos;
 use Illuminate\Http\Request;
 use App\Models\Model\Product;
@@ -58,5 +59,59 @@ class PosController extends Controller
 
         DB::table('pos')->delete();
         return response('Done');
+    }
+
+    public function searchOrderDate(Request $r)
+    {
+        $orderDate = $r->date;
+        $newDate = new DateTime($orderDate);
+        $done = $newDate->format('d/m/Y');
+
+        $order = DB::table('orders')
+            ->join('customers', 'orders.customer_id','customers.id')
+            ->select('customers.name', 'orders.*')
+            ->where('orders.order_date', $done)
+            ->get();
+
+        return response()->json($order);
+    }
+
+    public function todaySell()
+    {
+        $date = date('d/m/Y');
+        $sell = DB::table('orders')->where('order_date', $date)->sum('total');
+
+        return response()->json($sell);
+    }
+
+    public function todayIncome()
+    {
+        $date = date('d/m/Y');
+        $income = DB::table('orders')->where('order_date', $date)->sum('pay');
+
+        return response()->json($income);
+    }
+
+    public function todayDue()
+    {
+        $date = date('d/m/Y');
+        $due = DB::table('orders')->where('order_date', $date)->sum('due');
+
+        return response()->json($due);
+    }
+
+    public function todayExpense()
+    {
+        $date = date('d/m/Y');
+        $due = DB::table('expenses')->where('expenses_date', $date)->sum('amount');
+
+        return response()->json($due);
+    }
+
+    public function todayStockOut()
+    {
+        $product = DB::table('products')->where('product_quantity', '<', '1')->get();
+
+        return response()->json($product);
     }
 }
