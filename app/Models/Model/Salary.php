@@ -14,6 +14,6 @@ class Salary extends Model
         'amount',
         'salary_date',
         'salary_month',
-        'salary_year'
+        'salary_year',
     ];
 }

@@ -1,25 +1,23 @@
-class Token{
+class Token {
+    isValid(token) {
+        const payload = this.payload(token);
+        return Boolean(payload && payload.sub);
+    }
 
-    isValid(token){
-     const payload = this.payload(token)
-     if (payload) {
-       return payload.iss = "http://127.0.0.1:8000/api/auth/login" || "http://127.0.0.1:8000/api/auth/register" ? true : false
-     }
-     return false
+    payload(token) {
+        if (!token || token.split('.').length < 2) {
+            return null;
+        }
+        return this.decode(token.split('.')[1]);
     }
-   
-   
-    payload(token){
-     const payload = token.split('.')[1]
-     return this.decode(payload)
+
+    decode(payload) {
+        try {
+            return JSON.parse(atob(payload));
+        } catch (e) {
+            return null;
+        }
     }
-   
-    decode(payload){
-     return JSON.parse(atob(payload))
-    }
-    
-   
-   
-   }
-   
-   export default Token = new Token()
+}
+
+export default new Token();

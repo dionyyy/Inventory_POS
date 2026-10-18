@@ -1,48 +1,50 @@
-require('./bootstrap');
+import './bootstrap';
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import mitt from 'mitt';
+import Swal from 'sweetalert2';
 
-Vue.use(VueRouter)
+// Router routes
+import { routes } from './routes';
 
-// Router Imported
-import {routes} from './routes';
-
-// Import User Class
+// Helper singletons
 import User from './helper/User';
-window.User = User;
-
-// Import Notifications Class
 import Notifications from './helper/Notifications';
-window.Notifications = Notifications;
 
-// Sweet Alert notifications
-import Swal from 'sweetalert2'
+// Expose helpers globally for components that reference them (legacy usage).
+window.User = User;
+window.Notifications = Notifications;
 window.Swal = Swal;
 
+// Toast notification mixin.
 const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
 });
-
 window.Toast = Toast;
 
-window.Reload = new Vue();
+// Vue 3 removed instance $on/$off/$emit, so the former `new Vue()` event bus
+// is replaced with a lightweight mitt emitter exposing a compatible API.
+const emitter = mitt();
+window.Reload = {
+    $on: (event, handler) => emitter.on(event, handler),
+    $off: (event, handler) => emitter.off(event, handler),
+    $emit: (event, payload) => emitter.emit(event, payload),
+};
 
-const router = new VueRouter({
+const router = createRouter({
+    history: createWebHistory(),
     routes,
-    mode: 'history'
-  })
-
-
-const app = new Vue({
-    el: '#app',
-    router
 });
+
+const app = createApp({});
+app.use(router);
+app.mount('#app');

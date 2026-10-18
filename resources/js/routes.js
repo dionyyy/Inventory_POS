@@ -1,61 +1,60 @@
-let login = require('./components/auth/login.vue').default;
-let register = require('./components/auth/register.vue').default;
-let forgot = require('./components/auth/forgot.vue').default;
-let logout = require('./components/auth/logout.vue').default;
+// Authentication
+const login = () => import('./components/auth/login.vue');
+const register = () => import('./components/auth/register.vue');
+const forgot = () => import('./components/auth/forgot.vue');
+const logout = () => import('./components/auth/logout.vue');
 
-// End Authentication
-let home = require('./components/home.vue').default;
+// Dashboard
+const home = () => import('./components/home.vue');
 
-//POS components
-let pos = require('./components/pos/pointofsale.vue').default;
+// POS
+const pos = () => import('./components/pos/pointofsale.vue');
 
-// Employee Compponents
-let create = require('./components/employee/create.vue').default;
-let employee = require('./components/employee/index.vue').default;
-let edit = require('./components/employee/edit.vue').default;
+// Employee
+const create = () => import('./components/employee/create.vue');
+const employee = () => import('./components/employee/index.vue');
+const edit = () => import('./components/employee/edit.vue');
 
-//Supplier Components
-let createSupplier = require('./components/supplier/create.vue').default;
-let supplier = require('./components/supplier/index.vue').default;
-let editSupplier = require('./components/supplier/edit.vue').default;
+// Supplier
+const createSupplier = () => import('./components/supplier/create.vue');
+const supplier = () => import('./components/supplier/index.vue');
+const editSupplier = () => import('./components/supplier/edit.vue');
 
-//Category Components
-let createCategory = require('./components/category/create.vue').default;
-let category = require('./components/category/index.vue').default;
-let editCategory = require('./components/category/edit.vue').default;
+// Category
+const createCategory = () => import('./components/category/create.vue');
+const category = () => import('./components/category/index.vue');
+const editCategory = () => import('./components/category/edit.vue');
 
-//Product Components
-let createProduct = require('./components/product/create.vue').default;
-let product = require('./components/product/index.vue').default;
-let editProduct = require('./components/product/edit.vue').default;
+// Product
+const createProduct = () => import('./components/product/create.vue');
+const product = () => import('./components/product/index.vue');
+const editProduct = () => import('./components/product/edit.vue');
 
-//Expense Components
-let createExpense = require('./components/expense/create.vue').default;
-let expense = require('./components/expense/expense.vue').default;
-let editExpense = require('./components/expense/edit.vue').default;
+// Expense
+const createExpense = () => import('./components/expense/create.vue');
+const expense = () => import('./components/expense/expense.vue');
+const editExpense = () => import('./components/expense/edit.vue');
 
-//Salary Components
-let salary = require('./components/salary/all_employee.vue').default;
-let paySalary = require('./components/salary/create.vue').default;
+// Salary
+const salary = () => import('./components/salary/all_employee.vue');
+const paySalary = () => import('./components/salary/create.vue');
+const allSalary = () => import('./components/salary/index.vue');
+const viewSalary = () => import('./components/salary/view.vue');
+const editSalary = () => import('./components/salary/edit.vue');
 
-let allSalary = require('./components/salary/index.vue').default;
-let viewSalary= require('./components/salary/view.vue').default;
-let editSalary= require('./components/salary/edit.vue').default;
+// Stock
+const stock = () => import('./components/product/stock.vue');
+const editStock = () => import('./components/product/edit_stock.vue');
 
-//Stock Components
-let stock = require('./components/product/stock.vue').default;
-let editStock = require('./components/product/edit_stock.vue').default;
+// Customer
+const createCustomer = () => import('./components/customer/create.vue');
+const customer = () => import('./components/customer/index.vue');
+const editCustomer = () => import('./components/customer/edit.vue');
 
-// Customer Compponents
-let createCustomer = require('./components/customer/create.vue').default;
-let customer = require('./components/customer/index.vue').default;
-let editCustomer = require('./components/customer/edit.vue').default;
-
-// Order Components
-let order = require('./components/order/order.vue').default;
-let viewOrder = require('./components/order/vieworder.vue').default;
-let searchOrder = require('./components/order/searchorder.vue').default;
-
+// Order
+const order = () => import('./components/order/order.vue');
+const viewOrder = () => import('./components/order/vieworder.vue');
+const searchOrder = () => import('./components/order/searchorder.vue');
 
 export const routes = [
     { path: '/', component: login, name: '/' },
@@ -64,53 +63,52 @@ export const routes = [
     { path: '/logout', component: logout, name: 'logout' },
     { path: '/home', component: home, name: 'home' },
 
-    //Employee Routes
+    // Employee Routes
     { path: '/store-employee', component: create, name: 'store-employee' },
     { path: '/employee', component: employee, name: 'employee' },
     { path: '/edit-employee/:id', component: edit, name: 'edit-employee' },
 
-    //Suppliier Routes
+    // Supplier Routes
     { path: '/store-supplier', component: createSupplier, name: 'store-supplier' },
     { path: '/supplier', component: supplier, name: 'supplier' },
     { path: '/edit-supplier/:id', component: editSupplier, name: 'edit-supplier' },
 
-    //Category Routes
+    // Category Routes
     { path: '/store-category', component: createCategory, name: 'store-category' },
     { path: '/category', component: category, name: 'category' },
     { path: '/edit-category/:id', component: editCategory, name: 'edit-category' },
 
-     //Product Routes
+    // Product Routes
     { path: '/store-product', component: createProduct, name: 'store-product' },
     { path: '/product', component: product, name: 'product' },
     { path: '/edit-product/:id', component: editProduct, name: 'edit-product' },
 
-    //Expense Routes
+    // Expense Routes
     { path: '/store-expense', component: createExpense, name: 'store-expense' },
     { path: '/expense', component: expense, name: 'expense' },
     { path: '/edit-expense/:id', component: editExpense, name: 'edit-expense' },
 
-    //Salary Routes
+    // Salary Routes
     { path: '/given-salary', component: salary, name: 'given-salary' },
     { path: '/pay-salary/:id', component: paySalary, name: 'pay-salary' },
-
     { path: '/salary', component: allSalary, name: 'salary' },
     { path: '/view-salary/:id', component: viewSalary, name: 'view-salary' },
     { path: '/edit-salary/:id', component: editSalary, name: 'edit-salary' },
 
-    //Stock Routes
+    // Stock Routes
     { path: '/stock', component: stock, name: 'stock' },
     { path: '/edit-stock/:id', component: editStock, name: 'edit-stock' },
 
-      //Customer Routes
+    // Customer Routes
     { path: '/store-customer', component: createCustomer, name: 'store-customer' },
     { path: '/customer', component: customer, name: 'customer' },
     { path: '/edit-customer/:id', component: editCustomer, name: 'edit-customer' },
 
-    //POS Routes
+    // POS Routes
     { path: '/pos', component: pos, name: 'pos' },
 
-    //Order Routes
+    // Order Routes
     { path: '/order', component: order, name: 'order' },
     { path: '/view-order/:id', component: viewOrder, name: 'view-order' },
     { path: '/search-order', component: searchOrder, name: 'search-order' },
-  ]
+];
