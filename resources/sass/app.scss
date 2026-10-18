@@ -1,12 +1,28 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
 
 // Noty
-@import "~noty/src/noty.scss";
-@import "~noty/src/themes/mint.scss";
+@import "noty/src/noty.scss";
+@import "noty/src/themes/mint.scss";
+
+// Sidebar brand badge (replaces the ruang-admin "RA" logo image).
+.sidebar-brand .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    background-color: #3f51b5;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1;
+    letter-spacing: 0.5px;
+}

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -16,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('JWT' , ['except' => ['login', 'signup']]);
+        $this->middleware('JWT', ['except' => ['login', 'signup']]);
     }
 
     // , ['except' => ['login', 'signup']]
@@ -24,13 +24,13 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse 
+     * @return JsonResponse
      */
     public function login(Request $request)
     {
         $validateData = $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         $credentials = request(['email', 'password']);
@@ -45,7 +45,7 @@ class AuthController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function me()
     {
@@ -55,7 +55,7 @@ class AuthController extends Controller
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -67,7 +67,7 @@ class AuthController extends Controller
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh()
     {
@@ -77,12 +77,12 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $validateData = $request->validate([
-           'email' => 'required|unique:users|max:255', 
-           'name' => 'required', 
-           'password' => 'required|min:6|confirmed' 
+            'email' => 'required|unique:users|max:255',
+            'name' => 'required',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        $data = array();
+        $data = [];
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
@@ -94,9 +94,8 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param  string  $token
+     * @return JsonResponse
      */
     protected function respondWithToken($token)
     {
@@ -106,7 +105,7 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
             'name' => auth()->user()->name,
             'user_id' => auth()->user()->id,
-            'email'=> auth()->user()->email,
+            'email' => auth()->user()->email,
         ]);
     }
 }

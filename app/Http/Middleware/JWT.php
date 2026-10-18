@@ -1,23 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
-use Tymon\JWTAuth\facades\JWTAuth;
 use Illuminate\Http\Request;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Symfony\Component\HttpFoundation\Response;
 
 class JWT
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * Ensure the request carries a valid JWT and authenticate the user.
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        JWTAuth::parseToken()->authenticate(); 
+        try {
+            JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json(['error' => 'Token expired'], Response::HTTP_UNAUTHORIZED);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['error' => 'Token invalid'], Response::HTTP_UNAUTHORIZED);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Token absent'], Response::HTTP_UNAUTHORIZED);
+        }
+
         return $next($request);
-    } 
+    }
 }

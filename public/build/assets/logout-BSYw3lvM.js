@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";const t={created(){localStorage.removeItem("token"),localStorage.removeItem("user"),Toast.fire({icon:"success",title:"Logout successfully"}),this.$router.push({name:"/"})}};function o(r,s,c,a,n,u){return null}const _=e(t,[["render",o]]);export{_ as default};

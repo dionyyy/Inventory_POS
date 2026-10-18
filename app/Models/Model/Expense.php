@@ -11,6 +11,6 @@ class Expense extends Model
 
     protected $fillable = [
         'details',
-        'amount'
+        'amount',
     ];
 }

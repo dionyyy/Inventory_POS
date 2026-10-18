@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use DateTime;
-use App\Models\Model\Pos;
-use Illuminate\Http\Request;
-use App\Models\Model\Product;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Model\Pos;
+use App\Models\Model\Product;
+use DateTime;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PosController extends Controller
 {
@@ -22,10 +22,10 @@ class PosController extends Controller
     {
         $validate = $r->validate([
             'customer_id' => 'required',
-            'payby' => 'required'
+            'payby' => 'required',
         ]);
 
-        $data = array(
+        $data = [
             'customer_id' => $r->customer_id,
             'qty' => $r->qty,
             'sub_total' => $r->subTotal,
@@ -36,28 +36,30 @@ class PosController extends Controller
             'payby' => $r->payby,
             'order_date' => date('d/m/Y'),
             'order_month' => date('F'),
-            'order_year' => date('Y')
-        );
+            'order_year' => date('Y'),
+        ];
 
-        $order_id = DB::table('orders')->insertGetId($data);
+        DB::transaction(function () use ($data) {
+            $order_id = DB::table('orders')->insertGetId($data);
 
-        $contents = Pos::all();
+            $contents = Pos::all();
 
-        $odata = array();
-        foreach ($contents as $content) {
-            $odata['order_id'] = $order_id;
-            $odata['product_id'] = $content->pro_id;
-            $odata['pro_quantity'] = $content->pro_quantity;
-            $odata['product_price'] = $content->product_price;
-            $odata['sub_total'] = $content->sub_total;
+            foreach ($contents as $content) {
+                DB::table('order_details')->insert([
+                    'order_id' => $order_id,
+                    'product_id' => $content->pro_id,
+                    'pro_quantity' => $content->pro_quantity,
+                    'product_price' => $content->product_price,
+                    'sub_total' => $content->sub_total,
+                ]);
 
-            DB::table('order_details')->insert($odata);
+                Product::where('id', $content->pro_id)
+                    ->update(['product_quantity' => DB::raw('product_quantity - '.(int) $content->pro_quantity)]);
+            }
 
-            Product::where('id', $content->pro_id)
-            ->update(['product_quantity' => DB::raw('product_quantity -' .$content->pro_quantity)]);
-        }
+            DB::table('pos')->delete();
+        });
 
-        DB::table('pos')->delete();
         return response('Done');
     }
 
@@ -68,7 +70,7 @@ class PosController extends Controller
         $done = $newDate->format('d/m/Y');
 
         $order = DB::table('orders')
-            ->join('customers', 'orders.customer_id','customers.id')
+            ->join('customers', 'orders.customer_id', 'customers.id')
             ->select('customers.name', 'orders.*')
             ->where('orders.order_date', $done)
             ->get();

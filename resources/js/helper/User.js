@@ -1,47 +1,45 @@
-import Token from './Token'
-import AppStorage from './AppStorage'
+import Token from './Token';
+import AppStorage from './AppStorage';
 
+class User {
+    responseAfterLogin(res) {
+        const accessToken = res.data.access_token;
+        const username = res.data.name;
+        if (Token.isValid(accessToken)) {
+            AppStorage.store(accessToken, username);
+        }
+    }
 
-class User{
+    hasToken() {
+        const storedToken = AppStorage.getToken();
+        if (storedToken) {
+            return Token.isValid(storedToken);
+        }
+        return false;
+    }
 
- responseAfterLogin(res){
- 	const access_token = res.data.access_token
- 	const username = res.data.name
- 	if (Token.isValid(access_token)) {
- 		AppStorage.store(access_token,username)
- 	}
- }
- 
+    loggedIn() {
+        return this.hasToken();
+    }
 
-  hasToken(){
-  	const storeToken = localStorage.getItem('token');
-  	if (storeToken) {
-  		return Token.isValid(storeToken)? true : false
-  	}
-  	false
-  }
+    name() {
+        if (this.loggedIn()) {
+            return AppStorage.getUser();
+        }
+        return null;
+    }
 
-  loggedIn(){
-  	return this.hasToken()
-  }
+    id() {
+        if (this.loggedIn()) {
+            const payload = Token.payload(AppStorage.getToken());
+            return payload ? payload.sub : null;
+        }
+        return false;
+    }
 
-  name(){
-  	if (this.loggedIn()) {
-  		return localStorage.getItem('user');
-  	}
-  }
-
-
-	id(){
-	  	if (this.loggedIn()) {
-	  		const payload = Token.payload(localStorage.getItem('token'));
-	  		return payload.sub
-	  	}
-	  	return false
-	  }
-
- 
-
+    logout() {
+        AppStorage.clear();
+    }
 }
 
-export default User = new User()
+export default new User();

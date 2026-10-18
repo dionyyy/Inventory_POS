@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Models\Model\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Model\Product;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Image;
 
 class ProductController extends Controller
@@ -12,23 +13,23 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $product = Product::join('categories', 'products.category_id', 'categories.id')
-                    ->join('suppliers', 'products.supplier_id', 'suppliers.id')
-                    ->select('categories.category_name', 'suppliers.name', 'products.*')
-                    ->orderBy('products.id', 'DESC')
-                    ->get();
-                    
+            ->join('suppliers', 'products.supplier_id', 'suppliers.id')
+            ->select('categories.category_name', 'suppliers.name', 'products.*')
+            ->orderBy('products.id', 'DESC')
+            ->get();
+
         return response()->json($product);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -38,8 +39,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -58,13 +58,13 @@ class ProductController extends Controller
             $position = strpos($request->image, ';');
             $sub = substr($request->image, 0, $position);
             $ext = explode('/', $sub)[1];
-   
-            $name = time().".".$ext;
-            $img = Image::make($request->image)->resize(240,200);
+
+            $name = time().'.'.$ext;
+            $img = Image::make($request->image)->resize(240, 200);
             $upload_path = 'backend/product/';
             $image_url = $upload_path.$name;
             $img->save($image_url);
-   
+
             $product = new Product;
             $product->product_name = $request->product_name;
             $product->product_code = $request->product_code;
@@ -76,8 +76,8 @@ class ProductController extends Controller
             $product->product_quantity = $request->product_quantity;
             $product->buying_date = $request->buying_date;
             $product->image = $image_url;
-            $product->save(); 
-        }else{
+            $product->save();
+        } else {
             $product = new Product;
             $product->product_name = $request->product_name;
             $product->product_code = $request->product_code;
@@ -88,16 +88,16 @@ class ProductController extends Controller
             $product->selling_price = $request->selling_price;
             $product->product_quantity = $request->product_quantity;
             $product->buying_date = $request->buying_date;
-            $product->save(); 
-   
-        } 
+            $product->save();
+
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -110,7 +110,7 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -120,13 +120,12 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
-        $data = array(
+        $data = [
 
             'product_name' => $request->product_name,
             'product_code' => $request->product_code,
@@ -136,34 +135,34 @@ class ProductController extends Controller
             'buying_price' => $request->buying_price,
             'selling_price' => $request->selling_price,
             'product_quantity' => $request->product_quantity,
-            'buying_date' => $request->buying_date
-        );
-       
+            'buying_date' => $request->buying_date,
+        ];
+
         $image = $request->newimage;
 
         if ($image) {
-         $position = strpos($image, ';');
-         $sub = substr($image, 0, $position);
-         $ext = explode('/', $sub)[1];
+            $position = strpos($image, ';');
+            $sub = substr($image, 0, $position);
+            $ext = explode('/', $sub)[1];
 
-         $name = time().".".$ext;
-         $img = Image::make($image)->resize(240,200);
-         $upload_path = 'backend/product/';
-         $image_url = $upload_path.$name;
-         $success = $img->save($image_url);
-         
-         if ($success) {
-            $data['image'] = $image_url;
-            $img = Product::where('id',$id)->first();
-            $image_path = $img->image;
-            $done = unlink($image_path);
-            Product::where('id', $request->id)->update($data);
-        }
-          
-        }else{
-            $oldimage = $request->image;
-            $data['image'] = $oldimage;
-            Product::where('id', $request->id)->update($data);
+            $name = time().'.'.$ext;
+            $img = Image::make($image)->resize(240, 200);
+            $upload_path = 'backend/product/';
+            $image_url = $upload_path.$name;
+            $success = $img->save($image_url);
+
+            if ($success) {
+                $data['image'] = $image_url;
+                $old = Product::where('id', $id)->first();
+                if ($old && $old->image && is_file($old->image)) {
+                    @unlink($old->image);
+                }
+                Product::where('id', $id)->update($data);
+            }
+
+        } else {
+            $data['image'] = $request->image;
+            Product::where('id', $id)->update($data);
         }
     }
 
@@ -171,26 +170,25 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
         $product = Product::where('id', $id)->first();
         $photo = $product->image;
 
-        if($photo) {
-            unlink($photo);
-           Product::where('id', $product->id)->delete();
-        }else{
-           Product::where('id', $product->id)->delete();
+        if ($photo && is_file($photo)) {
+            @unlink($photo);
         }
+
+        Product::where('id', $product->id)->delete();
     }
 
     public function stockUpdate(Request $request, $id)
     {
-        $data = array(
-            'product_quantity' => $request->product_quantity
-        );
+        $data = [
+            'product_quantity' => $request->product_quantity,
+        ];
 
         Product::where('id', $id)->update($data);
     }

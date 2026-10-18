@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="{{ asset('backend/img/logo/logo.png') }}" rel="icon">
-  <title>Inventory - Dashboard</title>
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css')}}">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233f51b5'/%3E%3Ctext x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-size='30' font-weight='bold' fill='%23ffffff' text-anchor='middle'%3EIP%3C/text%3E%3C/svg%3E">
+  <title>Inventory POS - Dashboard</title>
+  @vite(['resources/sass/app.scss', 'resources/js/app.js'])
   <link href="{{ asset('backend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('backend/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('backend/css/ruang-admin.min.css') }}" rel="stylesheet">
@@ -23,12 +23,12 @@
     <nav id="sidebar" v-show="$route.path === '/' || $route.path === '/register' || $route.path === '/forgot' ? false : true" style="display: none;">
 
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <router-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
         <div class="sidebar-brand-icon">
-          <img src="{{ asset('backend/img/logo/logo2.png') }}">
+          <span class="brand-badge">IP</span>
         </div>
-        <div class="sidebar-brand-text mx-3">Inventory</div>
-      </a>
+        <div class="sidebar-brand-text mx-3">Inventory POS</div>
+      </router-link>
       <hr class="sidebar-divider my-0">
       <li class="nav-item active">
         <router-link class="nav-link" to="/home">
@@ -424,7 +424,6 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-  <script src="{{ asset('js/app.js')}}"></script>
   <script src="{{ asset('backend/vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{ asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> 
   

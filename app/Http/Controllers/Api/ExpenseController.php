@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Models\Model\Expense;
 use App\Http\Controllers\Controller;
+use App\Models\Model\Expense;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -23,7 +24,7 @@ class ExpenseController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -33,29 +34,28 @@ class ExpenseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $validateData = $request->validate([
             'details' => 'required',
             'amount' => 'required',
-           ]);
+        ]);
 
-           $expense = new Expense;
-           $expense->details = $request->details;
-           $expense->amount = $request->amount;
-           $expense->expenses_date = date('d/m/y');
+        $expense = new Expense;
+        $expense->details = $request->details;
+        $expense->amount = $request->amount;
+        $expense->expenses_date = date('d/m/y');
 
-           $expense->save();
+        $expense->save();
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -68,7 +68,7 @@ class ExpenseController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -78,13 +78,12 @@ class ExpenseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
-        $data = array();
+        $data = [];
         $data['details'] = $request->details;
         $data['amount'] = $request->amount;
         Expense::where('id', $id)->update($data);
@@ -94,11 +93,10 @@ class ExpenseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
-       Expense::where('id', $id)->delete();
+        Expense::where('id', $id)->delete();
     }
 }
- 
